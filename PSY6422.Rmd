@@ -1,0 +1,106 @@
+---
+title: "Is there a difference between the typing patterns of those with Parkinson's Disease versus those without?"
+author: "Leah McGrath"
+date: "23/05/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r out.width="40%", fig.align = "center", echo=FALSE}
+#Load and Display Keyboard Tapping
+img1_path<- "/Users/leahm/Documents/R/Parkinsons Data/PSY6422 project/KeyboardTyping.jpg"
+knitr::include_graphics(img1_path)
+fig.asp=0.50
+```
+
+*** 
+
+## Rationale
+**Parkinson's disease** is a neurodegenerative disease, purportedly caused by the loss of dopaminergic neurons in the brain. This manifests in the form of a range of motor and non-motor symptoms in those with the disease. Despite there being an estimated 6.1 million people with Parkinson's disease globally [(1)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5708704/), it's estimated that roughly a quarter of those diagnosed with the disease were initially misdiagnosed [(2)](https://www.theguardian.com/society/2019/dec/30/quarter-of-parkinsons-sufferers-were-wrongly-diagnosed-says-charity). This indicates a need for a more accurate method of detecting Parkinson's disease. It could be possible to detect Parkinson's in an individuals home environment, via the collection of human-computer interactions through recording their keyboard typing behaviours. This is under the assumption that, due to the motor symptoms of the disease, they will have different motor movements in their hands and fingers. 
+
+Using data collected from the software *Tappy*, this visualisation will aim to answer: Is it possible to detect a difference between the keyboard tapping latency of Parkinson's Disease (PD) patients in comparison to controls? Furtherly, is it possible to discern whether those with Parkinson's and tremors experience longer latencies than those without tremors?
+
+***
+
+## Data Origins
+Data collected via [Kaggle](https://www.kaggle.com/valkling/tappy-keystroke-data-with-parkinsons-patients) as sampled from [Adams et al (2017).](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5708704/)
+Data collected from *'Tappy'* software which was predownloaded onto participants' computers and summarised by TStafford.
+```{r, warning=FALSE, message=FALSE, include=TRUE}
+#Opening data in R
+library(tidyverse)
+df=read.csv('/Users/leahm/Documents/R/Parkinsons Data/PSY6422 project/summary_tappy_data.csv')
+```
+
+***
+
+## Data Preparation
+```{r, include=TRUE}
+#Separating and specifying variables to create a data frame
+df=read.csv('/Users/leahm/Documents/R/Parkinsons Data/PSY6422 project/summary_tappy_data.csv', sep=',', header =TRUE)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=TRUE}
+library(tidyverse)
+library(kableExtra)
+
+df %>%
+  kable(format="html", col.names = colnames(df[1:5, 1:17]), caption = "Table 1: First five participants' data as appears in data frame that was used for analysis.", align="ccccc") %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  kableExtra::scroll_box(width="100%", height="500px")
+  opts <- options(knitr.kable.NA = "")
+```
+***
+
+## Visualisation 1: Difference between latency in Parkinsons v Controls
+
+```{r,warning=FALSE, message=FALSE, include=TRUE, fig.align="center", fig.width=9, fig.height=7, fig.cap="Figure 1: A graph to show the average typing latencies in those with and without Parkinson's."}
+#Download the applicable packages
+library(dplyr)
+library(tidyverse)
+library(data.table)
+#Load dataset, specifying separators and header in dataframe
+df <- read.csv('/Users/leahm/Documents/R/Parkinsons Data/PSY6422 project/summary_tappy_data.csv', sep=',', header =TRUE)
+rank_comparison <- df %>% select('Parkinsons', 'typing_mean')
+typingmeandata <- df %>% select('Parkinsons', 'typing_mean')
+typingmeandata <- mutate(typingmeandata, State = ifelse(Parkinsons == 'True', "Has Parkinsons", "No Parkinsons"), )
+Parkinsons_cleaned <- na.omit(typingmeandata)
+typingmeandata <- df %>% select('Parkinsons', 'typing_mean', 'hold_std')
+typingmeandata <- mutate(typingmeandata, State = ifelse(Parkinsons == 'True', "Has Parkinsons", "No Parkinsons"), )
+#Remove NA values
+parkinsons_cleaned <- na.omit(typingmeandata)
+#Remove STD Outliers
+parkinsons_cleaned_outliersremoved <- parkinsons_cleaned[!(parkinsons_cleaned$hold_std > 100),]
+#Create table
+parkinsons_table = data.table(parkinsons_cleaned_outliersremoved)
+#Group table to show averages table
+parkinsons_table[,mean(typing_mean), by = 'State']
+#Create graph to show difference in averages between Parkinson's and non-Parkinson's participants
+ggplot(data = parkinsons_cleaned_outliersremoved, mapping = aes(x = Parkinsons, y = typing_mean, color = Parkinsons)) + geom_point() + ggtitle("Differences in average typing latency (ms) in participants with Parkinson's Disease vs those without.") + xlab("Parkinsons Diagnosis") + ylab("Average typing latency (ms)")
+#Save output
+ggsave('latency.png')
+```
+The motivation for producing this graph was to see the distribution of the average typing latencies between conditions, in order to visualise whether there is a difference between Parkinson's and non-Parkinson's participants keyboard interactions. Findings from Adams et al (2017) suggested that through these differences, you could accurately diagnose the disease in patients who had a longer typing latency. However, this graph demonstrates very little difference between the average typing latency of people with Parkinson's Disease in comparison to controls.
+
+***
+
+## Summary
+This piece of research has given me a strong insight into the importance of data preparation and organisation, providing me with experience with a new programming language **(R)** that I was unfamiliar with. From my analysis, it was unclear of the extent to which Parkinson's Disease affects human-computer interactions in terms of keyboard typing.
+
+One possible confound to this was that much of the data had to be excluded due to outliers or non-applicable findings. This meant that the pieces of data that were analysed as part of this project were fewer than the total number collected for the original study.
+
+Another interesting part of this study would be to compare how the typing of those with Parkinson's Disease decreases over the course of data collection (for example, over a one year period). This would provide longitudinal data as to how the disease deteriorates typing speed over time. I believe this would provide important insight into the course of Parkinson's degeneration in relation to motor actions.
+
+***
+
+## Additional Notes
+I found this project very challenging in terms of data preparation, however I believe this only made the outcomes even more rewarding. Persistence and patience were key for this analysis, which meant I could reap the rewards of my hard work! I thoroughly enjoyed learning more about R as I had never encountered this software before. I now feel much more confident when using R Studio and feel like in future, I will be able to provide even more insightful visualisations!
+
+***
+&nbsp;
+<hr />
+<p style="text-align: center;">Work completed by <a href="https://github.com/lmcgrath2/PSY6422">Leah McGrath</a></p>
+<p style="text-align: center;"><span style="color: #DA1884;"><em>lmcgrath2@sheffield.ac.uk</em></span></p>
+&nbsp;

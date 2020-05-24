@@ -1,0 +1,34 @@
+---
+title: "PSY6422 final self-assessment"
+author: "Leah McGrath"
+date: "15/05/2020"
+output:
+  pdf_document: default
+---
+
+# Marking Criteria
+
+Submits by 12 noon on the 26th of May 2020 in PDF by email to ``t.stafford@shef.ac.uk``
+
+Answers the questions in the headings below, showing evidence of engagement with the course
+
+Note: I expect and hope that all students can get full marks for this assessment. There is no word limit, but short is sweet. I suggest you write between 3 sentences and 3 paragraphs for each.
+
+# Final Self-assessment for PSY6422
+
+
+## 1. Which topic did I find most useful or interesting? Explain why
+I thoroughly enjoyed learning about R Markdown during the course of this module. I find the way in which creating html files that run smoothly very interesting, and it is something that I would love to do more of in the future. Additionally, I found learning how to create graphs useful due to our impending MSc research project. I think that more experience with graphs, such as the way in which we have explored ggplot in this project, will be useful when creating figures for my dissertation due to greater exposure to graph related language (such as how to label the x and y axis).
+
+
+## 2. Which topic did I find least useful, interesting or most difficult? Explain why
+I found it very difficult in creating tables in this project. Learning how to reduce complex datasets into only the variables of interest was challenging, but fundamental for this project. I found there to be many steps in order to complete what I initially thought would be a relatively simple process, however now that I have conquered this challenge I feel slightly more comfortable completing exercises such as this in the future.
+
+
+## 3. What topics do I want to learn more about in the future? Explain why
+I would like to learn more about other libraries in the future and how to utilise advanced techniques such as animated plots. Additionally, I think it would be interesting to learn how to make the codes on R more concise and neat. I would also love to learn more about how to make the completed R Markdown/HTML etc. files more visually appealing through different positioning, colours etc. In the future, I think it would be exciting to learn about how to create different chapters to a website and use it with a contents page.
+
+
+## 4. Please share one thing you have read and enjoyed or found useful on the topic of data management and/or visualisation
+I have thoroughly enjoyed exploring more about open data containers such as [Kaggle](kaggle.com) and how exciting it is to be able to have access to interesting bodies of research. This website has over 19,000 public datasets with thousands of different comments on how these have been utilised. I find that this is something that I didn't realise was available to researchers such as mine, and thus think open datasets such as these will be useful for me in the future as I dip my toes deeper into the world of data analysis and visualisation.
+
