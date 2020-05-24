@@ -1,1 +1,3 @@
-# PSY6422
+# PSY6422: Leah McGrath
+
+Data visualisation project - PSY6422
